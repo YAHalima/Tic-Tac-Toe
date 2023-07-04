@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <title>Frontend Mentor | Tic Tac Toe</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="grid-styles.css">
+  <link rel="stylesheet" href="status-styles.css"> 
+</head>
+<body>
+<section class="container phase-1">
+  <div class="content">
+
+    <div class="icons" id="header-icons">
+      <img src="assets/icon-x.svg" alt="x">
+      <img src="assets/icon-o.svg" alt="o">
+    </div>
+    
+    <div class="player-selection">
+      <!-- New game menu start -->
+      <h5 id="title">Pick player 1's mark</h5>
+      <div class="icons" id="select-icon">
+        <div id="select-x"><img src="assets/icon-x.svg" alt="x"></div>
+        <div id="select-o"><img src="assets/icon-o.svg" alt="o"></div>
+      </div>
+     <p id="reminder">Remember: X goes first</p>
+    </div>
+   
+    
+    <!-- Pick player 1's mark
+    Remember: X goes first -->
+    
+    <div id="new-game">
+      <div class="cpu">New Game (vs CPU)</div>
+      <div class="player">New Game (vs player)</div>
+    </div>
+    
+    <!-- New game menu end -->
+  </div>
+</section>
+
+<section class="container active">
+  <div class="content">
+    <!-- Game board start -->
+    
+    <div class="grid-columns">
+    
+      <div class="grid-items">
+        <div class="icons">
+          <img id="icons-x" src="assets/icon-x.svg" alt="x">
+          <img id="icons-o" src="assets/icon-o.svg" alt="o">
+        </div>
+        <!-- x/o icon -->
+        <div class="turn">turn</div>
+        <div class="reset"><img id="reset" src="assets/icon-restart.svg" alt="restart icon"></div>
+      </div>
+    
+      <div class="grid-items">
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+        <div class="player-card"></div>
+      </div>
+    
+      <div class="grid-items" id="scores">
+        <!-- Your score -->
+        <div class="player-scores">X (You)<br><span>0</span></div>
+        <!-- Ties score -->
+        <div class="ties">Ties<br><span>0</span></div>
+        <!-- CPU score -->
+        <div class="cpu-scores">O (CPU)<br><span>0</span></div>
+      </div>
+    </div>
+         
+    <!-- Game board end -->
+    <!-- <script src="index.js"></script> -->
+    
+  </div>
+</section>
+
+ <div class="lost wrapper" id="solo">
+      <div class="display_status" id="solo">
+        <p class="status">Oh no, you lost...</p>
+        <h4 class="round" id="takes-round"><span id="takes-round-icon"><img src="" alt=""></span> takes the round</h4>
+        <div class="options">
+          <div class="quit" id="quit1">Quit</div>
+          <div class="next" id="next1">Next round</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="won wrapper">
+      <div class="display_status">
+        <p class="status">You won!</p>
+        <!-- x/o icon -->
+        <h4 class="round" id="takes-round"><span id="takes-round-icon"><img src="" alt=""></span> takes the round</h4>
+        <div class="options">
+          <div class="quit" id="quit2">Quit</div>
+          <div class="next" id="next2">Next round</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="restart wrapper">
+      <div class="display_status">
+        <h4 class="round" id="restart-game">restart game?</h4>
+        <div class="options">
+          <div id="cancel">No, cancel</div>
+          <div id="refresh">Yes, restart</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class=" tie wrapper">
+      <div class="display_status">
+        <h4 class="round" id="round-tied">Round tied</h4>
+        <div class="options">
+          <div class="quit" id="quit4">Quit</div>
+          <div class="next" id="next3">Next round</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="lost wrapper" id="multi-player">
+      <div class="display_status">
+        <p class="status">Player <!-- 1/2 --> wins!</p>
+        <h4 class="round" id="takes-round"><span id="takes-round-icon"><img src="" alt=""></span> takes the round</h4>
+        <div class="options">
+          <div class="quit" id="quit5">Quit</div>
+          <div class="next" id="next4">Next round</div>
+        </div>
+      </div>
+    </div>
+     
+      
+
+  <script src="script.js"></script>
+</body>
+</html>

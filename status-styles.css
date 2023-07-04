@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@200;500;700&family=Outfit:wght@300;400;500;700&display=swap');
+body {
+   position: relative;
+}
+
+ .wrapper {
+    background-color: #1F3641; 
+    width: 100%;
+    position: fixed;
+    top: 30%;  
+} 
+.display_status {
+    padding: 2em 0;   
+}
+.won, .tie, .restart, #multi-player, #solo {
+    display: none;
+} 
+
+.status {
+    color: #A8BFC9;
+    text-align: center;
+    font-family: Outfit;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 5px 0;
+        
+}
+.round {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    gap: 15px;
+    font-size: 1.85rem;
+    font-family: Outfit;
+    font-weight: 700;
+    line-height: 3.125rem;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 5px 0;  
+}
+ .round, #takes-round {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; */
+    
+}
+.lost #takes-round {
+    color: #CC8B13;
+}
+#restart-game, #round-tied{
+    color: #A8BFC9;
+}
+.won #takes-round {
+    color: #31C3BD;
+}
+.options {
+    color:#1A2A33;;
+    font-family: Outfit;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    
+    
+}
+.quit, #cancel {
+    background-color: #A8BFC9;
+    box-shadow: inset 0px -4px 0px #6B8997;
+    border-radius: 0.625em;
+    padding: 0.6em;
+}
+.quit:hover {
+    background-color: #DBE8ED
+}
+.next, #refresh {
+    background-color: #F2B137;
+    box-shadow: inset 0px -4px 0px #CC8B13;
+    border-radius: 0.625em;
+    padding: 0.6em;
+}
+.next:hover {
+    background-color: #FFC860;
+}
+.mark {
+    width: 45px;
+    height: 45px;
+
+}
