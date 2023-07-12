@@ -66,10 +66,6 @@
     padding: 0.6em;
     width: 212px;
 }
-#select-o {
-    /* width: 152px; */
-    
-}
 
 #reminder {
     font-size: 0.875rem;
@@ -111,25 +107,4 @@
     background-color: #65E9E4;
 }
 
-.xClass {
-    background-image: url("assets/icon-x.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 45px;
-    cursor: pointer;
-}
-.xClass:hover {
-    background-image: url("assets/icon-x-outline.svg");
-}
 
-.oClass {
-    background-image: url("assets/icon-o.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 45px;
-    cursor: pointer;
-    
-}
-.oClass:hover {
-    background-image: url("assets/icon-o-outline.svg");
-}

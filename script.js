@@ -7,6 +7,7 @@ const messageMulti = document.querySelector('#multi-player');
 const cpu_Btn = document.querySelector('.cpu');
 const human_Btn = document.querySelector('.player');
 const gameBoard = document.querySelector('.active');
+const board = document.querySelector('.board');
 const phase1 = document.querySelector('.phase-1');
 const selectX = document.getElementById('select-x');
 const selectO = document.getElementById('select-o');
@@ -103,19 +104,25 @@ function playGameWithHuman(){
 // GAME STARTS
 startGame()
 function startGame() {
-    //circleTurn = false;
+    let ai = newPlayer.computer;
+    if (ai === 'select-x') {  
+        circleTurn = false;
+        //console.log('in');
+    }
     cellElement.forEach(cell => {
     cell.addEventListener('click', handleClick, {once: true});
     cell.classList.remove(xClass);
     cell.classList.remove(circleClass); 
 })
+    boardHoverClass();
+
 
 }
 
 // RESTART BUTTON SETS THE GAMEBOARD TO ITS INITIAL STATE
 refreshBtn.addEventListener('click', ()=> {
     messageRestart.style.display = 'none';
-    startGame();
+    window.location.reload();
 })
 
 // ACTIVATING THE NEXT ROUND BUTTTONS
@@ -137,8 +144,7 @@ function handleClick(e) {
    let currentMark = circleTurn? circleClass : xClass;
  
    placeMark(cell, currentMark);
-   changeTurns();
-
+   
    if (checkWin(currentMark)) {
     endGame(false);
     earnPoints();
@@ -147,6 +153,8 @@ function handleClick(e) {
     earnPoints();
    }
 
+   changeTurns();
+   boardHoverClass();
 }
 // DISPLAY WHETHER THE GAME IS TIE OR WON 
 function endGame(draw) {
@@ -179,6 +187,16 @@ function checkWin(currentMark) {
 
 }
 
+function boardHoverClass() {
+    board.classList.remove(xClass);
+    board.classList.remove(circleClass);
+    if (circleTurn) {
+        board.classList.add(circleClass);
+    } else {
+        board.classList.add(xClass);
+    }
+}
+
 // UPDATING SCORES
 let scores = 0;
 let currentMark = circleTurn ? circleClass : xClass;
@@ -186,9 +204,8 @@ let currentMark = circleTurn ? circleClass : xClass;
 function earnPoints() {
     scores++;
     updateScore(currentMark)
-
 }
-console.log(currentMark)
+
 function updateScore(currentMark) {
     if (checkWin(currentMark)) {
        playerScores.innerHTML = 'player 1 <br>' + scores; 
@@ -196,12 +213,9 @@ function updateScore(currentMark) {
        tieScores.innerHTML = 'Ties <br>' + scores;
     }else if (checkComputerWin) {
         compScores.innerHTML = 'player 2 <br>' + scores;
-    }
-    
+    }    
 }
-
-
-};
+ };
 
 
 //PLAYING WITH COMPUTER AS OPPONENT
@@ -211,8 +225,6 @@ function playGameWithComputer() {
     gameBoard.style.display = 'block';
     phase1.style.display = 'none';
 
-
-
   startGame()
   function startGame() {
     cellElement.forEach(cell => {
@@ -220,12 +232,13 @@ function playGameWithComputer() {
     cell.classList.remove(xClass);
     cell.classList.remove(circleClass); 
 })
+   boardHoverClass(); 
 }
 
 // RESTART BUTTON SETS THE GAMEBOARD TO ITS INITIAL STATE
 refreshBtn.addEventListener('click', ()=> {
     messageRestart.style.display = 'none';
-    startGame();
+    window.location.reload();
 })
 
 //ACTIVATING THE NEXTROUND BUTTONS
@@ -242,15 +255,7 @@ nextBtn.forEach((btn) => {
     });
 })
 
-
-function swapTurnsToComputer() {
-    let currentMark = circleTurn ? circleClass : xClass;
-  if (!isDraw() || !checkWin(currentMark) || !checkLost(currentMark)) placeMark(bestSpot(), currentMark);
-
-
-}
-
-// FOR EACH CELL CLICKED
+//FOR EACH CELL CLICKED
 function handleClick(e) {
    const cell = e.target;
 // HUMAN'S TURN 
@@ -274,10 +279,10 @@ function handleClick(e) {
    }
 
 //COMPUTER'S TURN 
-       setTimeout(()=> {
+    setTimeout(()=> {
         swapTurnsToComputer()
-     }, 300)
-
+        boardHoverClass();
+     }, 700);
    
 }
 
@@ -287,16 +292,56 @@ function placeMark(cell, currentMark) {
     changeTurns();
 }
 
-
-function emptyCells() {
-   return [...cellElement].filter(element => !element.classList.contains("activeCell"));
-
+function swapTurnsToComputer() {
+  const opponentMark = circleTurn ? xClass : circleClass;
+  const currentMark = circleTurn ? circleClass : xClass;
+  if (!isDraw() || !checkWin(currentMark) || !checkLost(currentMark)) {
+    const cellIndex = bestSpot(opponentMark);
+    if (cellIndex !== undefined) {
+      placeMark(cellIndex, currentMark);
+      return;
+    }
+  }  
 }
 
-function bestSpot() {
-    return emptyCells()[0];
+function bestSpot(opponentMark) {
+  let bestSpotIndex = -1;
+  winningCombos.forEach((combo, comboIndex) => {
+    const opponentMarks = combo.filter(cell => cell.classList.contains(opponentMark));
+    if (opponentMarks.length === combo.length - 1) {
+      const emptyCellsInCombo = emptyCells(comboIndex);
+      if (emptyCellsInCombo.length > 0) {
+        bestSpotIndex = emptyCellsInCombo[0]; // Update bestSpotIndex
+      }
+    }
+  });
+  return bestSpotIndex;
 }
 
+
+function emptyCells(comboIndex) {
+  const combo = winningCombos[comboIndex];
+  const emptyCellIndices = [];
+  
+  combo.forEach((cell, index) => {
+    if (!cell.classList.contains('X') && !cell.classList.contains('O')) {
+      emptyCellIndices.push(index);
+    }
+  });
+  
+  return emptyCellIndices;
+}
+
+
+function boardHoverClass() {
+    board.classList.remove(xClass);
+    board.classList.remove(circleClass);
+    if (circleTurn) {
+        board.classList.add(circleClass);
+    } else {
+        board.classList.add(xClass);
+    }
+}
 
 function endGame(status) {     
     if (status === 'won') {
@@ -339,9 +384,9 @@ function isDraw() {
     })
 }
 function checkLost(currentMark) {
-    return !(winningCombos.some(combination => {
+    return (!winningCombos.some(combination => {
         return combination.every(index => {
-            return !(cellElement[index].classList.contains(currentMark))
+            return (!cellElement[index].classList.contains(currentMark))
         })
     }))
 }
@@ -356,7 +401,6 @@ function earnPoints() {
     updateScore(currentMark)
 
 }
-console.log(currentMark)
 function updateScore(currentMark) {
     if (checkWin(currentMark)) {
        playerScores.innerHTML = 'X(YOU) <br>' + scores; 
@@ -368,6 +412,5 @@ function updateScore(currentMark) {
     
 }
 
- 
 
 }
