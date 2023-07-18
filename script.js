@@ -24,6 +24,7 @@ let compScores = document.querySelector('.cpu-scores')
 let xClass = 'xClass';
 let circleClass = 'oClass';
 let circleTurn;
+let gameOver;
 const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -35,8 +36,6 @@ const winningCombos = [
     [2, 4, 6],
 
 ];
-
-
 
 const newPlayer = new Object;
 let opponent;
@@ -104,20 +103,15 @@ function playGameWithHuman(){
 // GAME STARTS
 startGame()
 function startGame() {
-    let ai = newPlayer.computer;
-    if (ai === 'select-x') {  
-        circleTurn = false;
-        //console.log('in');
-    }
+    circleTurn = false;
     cellElement.forEach(cell => {
     cell.addEventListener('click', handleClick, {once: true});
     cell.classList.remove(xClass);
     cell.classList.remove(circleClass); 
 })
     boardHoverClass();
-
-
 }
+let gameOver = false;
 
 // RESTART BUTTON SETS THE GAMEBOARD TO ITS INITIAL STATE
 refreshBtn.addEventListener('click', ()=> {
@@ -145,10 +139,10 @@ function handleClick(e) {
  
    placeMark(cell, currentMark);
    
-   if (checkWin(currentMark)) {
+   if (checkWin(currentMark, scores)) {
     endGame(false);
     earnPoints();
-   }else if (isDraw()) {
+   }else if (isDraw(currentMark, scores)) {
     endGame(true);
     earnPoints();
    }
@@ -166,27 +160,33 @@ function endGame(draw) {
 }
 
 function isDraw() {
-    return [...cellElement] .every(cell => {
+    return [...cellElement].every(cell => {
         return cell.classList.contains(xClass) || cell.classList.contains(circleClass)
-    })
+    });       
 }
 
 
 function placeMark(cell, currentMark) {  
-    cell.classList.add(currentMark);    
+    cell.classList.add(currentMark);   
 }
 
-
-function checkWin(currentMark) {
-    return winningCombos.some(combination => {
+function checkWin(currentMark, scores) {
+    let hasWon = winningCombos.some(combination => {
         return combination.every(index => {
             return cellElement[index].classList.contains(currentMark);
-        })
-        
-    })
+        });
+    });
 
+    if (hasWon) {
+        if (gameOver) { // Check if the game is still ongoing
+            updateScore(currentMark, scores); // Call updateScore with the currentMark and scores
+            gameOver = true; // Set gameOver to true to indicate that the game has ended
+        }
+        return true;
+    } else {
+        return false;
+    }
 }
-
 function boardHoverClass() {
     board.classList.remove(xClass);
     board.classList.remove(circleClass);
@@ -203,18 +203,30 @@ let currentMark = circleTurn ? circleClass : xClass;
 
 function earnPoints() {
     scores++;
-    updateScore(currentMark)
+    updateScore(currentMark, scores);
+    scores++;
+
 }
 
-function updateScore(currentMark) {
-    if (checkWin(currentMark)) {
-       playerScores.innerHTML = 'player 1 <br>' + scores; 
-    } else if (isDraw()) {
-       tieScores.innerHTML = 'Ties <br>' + scores;
-    }else if (checkComputerWin) {
-        compScores.innerHTML = 'player 2 <br>' + scores;
-    }    
+let player1Score = 0;
+let player2Score = 0;
+let drawScore = 0;
+
+function updateScore(currentMark, scores) {
+    if (checkWin(currentMark, scores)) {
+        if (currentMark === xClass) {
+            player1Score++;
+            playerScores.innerHTML = 'Player 1 <br>' + player1Score;
+        } else if (currentMark === circleClass) {
+            player2Score++;
+            compScores.innerHTML = 'Player 2 <br>' + player2Score;
+        }
+    } else if (isDraw(currentMark, scores)) {
+        drawScore++;
+        tieScores.innerHTML = 'Ties <br>' + scores;
+    }
 }
+
  };
 
 
@@ -226,7 +238,14 @@ function playGameWithComputer() {
     phase1.style.display = 'none';
 
   startGame()
+   var currentMark = circleTurn ? circleClass : xClass;
+
   function startGame() {
+    let ai = newPlayer.computer;
+    if (ai === 'select-x') {  
+        circleTurn = false;
+        swapTurnsToComputer();
+    }
     cellElement.forEach(cell => {
     cell.addEventListener('click', handleClick, {once: true});
     cell.classList.remove(xClass);
@@ -277,59 +296,34 @@ function handleClick(e) {
        cellElement.forEach(cell =>cell.removeEventListener('click', handleClick, {once: true}));
        earnPoints();
    }
-
+    
 //COMPUTER'S TURN 
     setTimeout(()=> {
         swapTurnsToComputer()
-        boardHoverClass();
-     }, 700);
-   
+        //boardHoverClass();
+     }, 1000);
+
+    boardHoverClass();
+
 }
 
 function placeMark(cell, currentMark) {
-    cell.classList.add(currentMark);
+    cell.classList.add(currentMark); 
     cell.classList.add('activeCell');
     changeTurns();
 }
 
 function swapTurnsToComputer() {
-  const opponentMark = circleTurn ? xClass : circleClass;
-  const currentMark = circleTurn ? circleClass : xClass;
-  if (!isDraw() || !checkWin(currentMark) || !checkLost(currentMark)) {
-    const cellIndex = bestSpot(opponentMark);
-    if (cellIndex !== undefined) {
-      placeMark(cellIndex, currentMark);
-      return;
-    }
-  }  
+  if (!isDraw() || !checkWin(currentMark) || !checkLost(currentMark)) placeMark(bestSpot(), currentMark);
+}  
+
+function emptyCell() {
+   const emptyCells = [...cellElement].filter(element => !element.classList.contains("activeCell"));
+    return emptyCells[Math.ceil(Math.random()*emptyCells.length-1)]
 }
 
-function bestSpot(opponentMark) {
-  let bestSpotIndex = -1;
-  winningCombos.forEach((combo, comboIndex) => {
-    const opponentMarks = combo.filter(cell => cell.classList.contains(opponentMark));
-    if (opponentMarks.length === combo.length - 1) {
-      const emptyCellsInCombo = emptyCells(comboIndex);
-      if (emptyCellsInCombo.length > 0) {
-        bestSpotIndex = emptyCellsInCombo[0]; // Update bestSpotIndex
-      }
-    }
-  });
-  return bestSpotIndex;
-}
-
-
-function emptyCells(comboIndex) {
-  const combo = winningCombos[comboIndex];
-  const emptyCellIndices = [];
-  
-  combo.forEach((cell, index) => {
-    if (!cell.classList.contains('X') && !cell.classList.contains('O')) {
-      emptyCellIndices.push(index);
-    }
-  });
-  
-  return emptyCellIndices;
+function bestSpot() {
+    return emptyCell();
 }
 
 
@@ -347,7 +341,7 @@ function endGame(status) {
     if (status === 'won') {
         setTimeout(() => {
             messageWon.style.display = 'block';   
-        }, 1000);
+        }, 1500);
         cellElement.forEach(cell => {
     cell.removeEventListener('click', handleClick, { once: true });
   }); 
@@ -355,7 +349,7 @@ function endGame(status) {
       else if (status === 'draw') {
         setTimeout(() => {
             messageTie.style.display = 'block';
-        }, 1000);
+        }, 1500);
         cellElement.forEach(cell => {
     cell.removeEventListener('click', handleClick, {once: true});
     });
@@ -363,7 +357,7 @@ function endGame(status) {
     else if (status === 'lost') {
          setTimeout(() => {
             messageLost.style.display = 'block';
-        }, 1000)
+        }, 1500)
         cellElement.forEach(cell => {
     cell.removeEventListener('click', handleClick, {once: true});
     });
@@ -375,18 +369,19 @@ function checkWin(currentMark) {
         return combination.every(index => {
             return cellElement[index].classList.contains(currentMark)
         })
-    })
+    });
 }
 
 function isDraw() {
     return [...cellElement].every(cell => {
         return cell.classList.contains(xClass) || cell.classList.contains(circleClass)
-    })
+    });
 }
+
 function checkLost(currentMark) {
-    return (!winningCombos.some(combination => {
+    return !(winningCombos.some(combination => {
         return combination.every(index => {
-            return (!cellElement[index].classList.contains(currentMark))
+            return !(cellElement[index].classList.contains(currentMark))
         })
     }))
 }
@@ -394,19 +389,20 @@ function checkLost(currentMark) {
 
 // UPDATING SCORES
 let scores = 0;
-let currentMark = circleTurn ? circleClass : xClass;
-
 function earnPoints() {
     scores++;
     updateScore(currentMark)
-
 }
+
 function updateScore(currentMark) {
     if (checkWin(currentMark)) {
+        scores++;
        playerScores.innerHTML = 'X(YOU) <br>' + scores; 
     } else if (isDraw()) {
+        scores++;
        tieScores.innerHTML = 'Ties <br>' + scores;
     }else if (checkLost(currentMark)) {
+        scores++;
         compScores.innerHTML = 'O(CPU) <br>' + scores;
     }
     
