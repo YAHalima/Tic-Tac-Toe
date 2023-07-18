@@ -5,26 +5,30 @@
     box-sizing: border-box;
 }
 
-#icons-x, #icons-o {
-    width: 20%;
-    height: 35%;
+.icons img {
+    width: 15px;
+    height: 25px;
+    margin-left: 10px;
 }
 
-.container {
-    background-color: #1A2A33;
-    padding: 6em 4em;
-}
-
-.content {
+.content-1 {
+    height: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    padding: 2em 6em;
+}
+.bar {
+    margin-bottom: 1.25rem;
 }
 
 .grid-items {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr; 
+    gap: 1.51rem;
+    
     
 }
 
@@ -32,15 +36,14 @@
     /* background-image: url("assets/icon-x.svg"); */
     
     background-color: #1F3641;
-    border-radius: 0.5em;
+    border-radius: 0.55em;
     color: #A8BFC9;
     text-transform: uppercase;
     text-align: right;
     font-family: "Outfit";
     font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    
+    font-size: 0.95rem;
+    padding: 0.25em;    
 }
 .turnMark {
     background-repeat: no-repeat;
@@ -49,59 +52,59 @@
 }
 
 .reset {
+    width: 40px;
     background-color: #A8BFC9;
-    border-radius: 0.25em;
-    width: 30%;
-    margin-bottom: 0.75rem;
-    margin-left: 2.5rem;
+    border-radius: 0.65em;
+    margin-left: 3.5rem;
     cursor: pointer;
-    
 }
 .reset:hover {
     background-color: #DBE8ED;
 }
-#reset {
-    width: 50%;
-    margin-left: 0.4rem;
+.reset img {
+    margin-left: 0.7rem;
+    margin-top: 0.72rem;
+    width: 25px;
+    height: 25px;
 }
 
 .player-card {
     background-color: #1F3641;
     box-shadow: 0px -8px 0px 0px #10212A inset;
-    border-radius: 1rem;
-    padding: 2.5em;
+    border-radius: 0.85rem;
+    padding: 3.34em;
+    /* width: 160px;
+    height: 160px; */
 }
 
 #scores {
     text-align: center;
     font-family: "Outfit";
     font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    margin-top: 0.5rem;
+    margin-top: 1.2rem;
 }
 
 .player-scores {
     background-color: #31C3BD;
-    border-radius: 0.85rem;
-    padding: 0.5em;
-    
-}
-#player-scores {
-    font-weight: bold;
-    font-size: 1.5rem;
+    border-radius: 0.75rem;
+    padding: 0.5em 1.5em;
+    font-weight: bold;    
 }
 
 .ties {
     background-color: #A8BFC9;
-    border-radius: 0.85rem;
-    padding: 0.5em;
+    border-radius: 0.75rem;
+    padding: 0.5em 1.5em;
+    font-weight: bold;
 }
 
 .cpu-scores {
     background: #F2B137;
-    border-radius: 0.85rem;
-    padding: 0.5em;
+    border-radius: 0.75rem;
+    padding: 0.5em 1.5em;
+    font-weight: bold;
 }
 .xClass {
     background-image: url("assets/icon-x.svg");
@@ -115,4 +118,77 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 45px;
+}
+.board.xClass .player-card:not(.xClass):not(.oClass):hover {
+    background-image: url("assets/icon-x-outline.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45px;
+}
+
+.board.oClass .player-card:not(.xClass):not(.oClass):hover {
+    background-image: url("assets/icon-o-outline.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 45px;
+}
+
+/* //@media only screen and (max-width: 600px) */
+@media only screen and (280px <= width <= 480px) {
+    .content-1 {
+        display: block;
+        padding: 0.5em 0.75em;
+    }
+    .grid-items {
+        gap: 1.5rem;
+    }
+    .icons img {
+        width: 25px;
+        height: 25px;
+    }
+    .turn {
+        font-weight: 500;
+        font-size: 1.25rem;
+        padding: 0.25em;
+        border-radius: 0.35em;
+    }
+    .reset {
+        width: 40px;
+        border-radius: 0.45em;
+        margin-left: 2.85rem;
+    }
+    .reset img {
+        margin-left: 0.71rem;
+        width: 15px;
+        height: 15px;
+    }
+    .board {
+        margin-top: 5rem;
+    }
+    .player-card {
+        padding: 2.55em;
+        border-radius: 0.77rem;
+    }  
+    .scores {
+        font-size: 0.98rem;
+        margin-top: 1.82rem;
+    }
+    .player-scores {
+    border-radius: 0.55rem;
+    padding: 0.95em 0.75em;
+    font-weight: bold;
+    font-size: 0.82rem;
+    } 
+    .cpu-scores {
+        border-radius: 0.55rem;
+        padding: 0.95em 0.75em;
+        font-weight: bold;
+        font-size: 0.82rem;
+    }
+    .ties {
+        border-radius: 0.55rem;
+        padding: 0.95em 0.75em;
+        font-weight: bold;
+        font-size: 0.82rem;
+    }
 }
