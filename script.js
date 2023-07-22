@@ -108,7 +108,7 @@ function startGame() {
     cell.addEventListener('click', handleClick, {once: true});
     cell.classList.remove(xClass);
     cell.classList.remove(circleClass); 
-})
+});
     boardHoverClass();
 }
 let gameOver = false;
@@ -138,7 +138,11 @@ function handleClick(e) {
    let currentMark = circleTurn? circleClass : xClass;
  
    placeMark(cell, currentMark);
-   
+   changeTurns();
+   boardHoverClass();
+
+
+
    if (checkWin(currentMark, scores)) {
     endGame(false);
     earnPoints();
@@ -147,8 +151,6 @@ function handleClick(e) {
     earnPoints();
    }
 
-   changeTurns();
-   boardHoverClass();
 }
 // DISPLAY WHETHER THE GAME IS TIE OR WON 
 function endGame(draw) {
@@ -204,8 +206,6 @@ let currentMark = circleTurn ? circleClass : xClass;
 function earnPoints() {
     scores++;
     updateScore(currentMark, scores);
-    scores++;
-
 }
 
 let player1Score = 0;
@@ -216,14 +216,13 @@ function updateScore(currentMark, scores) {
     if (checkWin(currentMark, scores)) {
         if (currentMark === xClass) {
             player1Score++;
-            playerScores.innerHTML = 'Player 1 <br>' + player1Score;
+           playerScores.innerHTML = 'Player 1 <br>' + player1Score;
         } else if (currentMark === circleClass) {
             player2Score++;
             compScores.innerHTML = 'Player 2 <br>' + player2Score;
         }
     } else if (isDraw(currentMark, scores)) {
-        drawScore++;
-        tieScores.innerHTML = 'Ties <br>' + scores;
+        tieScores.innerHTML = 'Ties <br>' + drawScore++;
     }
 }
 
@@ -244,7 +243,9 @@ function playGameWithComputer() {
     let ai = newPlayer.computer;
     if (ai === 'select-x') {  
         circleTurn = false;
+        //placeMark(bestSpot(), currentMark);
         swapTurnsToComputer();
+        return;
     }
     cellElement.forEach(cell => {
     cell.addEventListener('click', handleClick, {once: true});
@@ -299,8 +300,8 @@ function handleClick(e) {
     
 //COMPUTER'S TURN 
     setTimeout(()=> {
-        swapTurnsToComputer()
-        //boardHoverClass();
+        swapTurnsToComputer();
+        boardHoverClass();
      }, 1000);
 
     boardHoverClass();
@@ -314,7 +315,10 @@ function placeMark(cell, currentMark) {
 }
 
 function swapTurnsToComputer() {
-  if (!isDraw() || !checkWin(currentMark) || !checkLost(currentMark)) placeMark(bestSpot(), currentMark);
+    let currentMark = circleTurn ? circleClass : xClass;
+
+  if (!isDraw() || !checkWin(currentMark) || !checkLost(currentMark));
+  placeMark(bestSpot(), currentMark);
 }  
 
 function emptyCell() {
