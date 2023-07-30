@@ -13,9 +13,19 @@ body {
     height: 100vh;
 }
 
-#select-x img, #select-o img {
-    width: 50%;
-    height: 85%;
+.Xsvg,
+.Osvg {
+    margin: -4px;
+    transform: scale(0.5);
+}
+
+.Xsvg {
+    fill: #abbfc9;
+}
+
+.Osvg {
+    fill: #1a2a33;
+
 }
 
  .container {
@@ -30,13 +40,12 @@ body {
     height: inherit;
     text-transform: uppercase;
     padding: 6em 2em;
+    text-align: center;
 }
 
 .selected {
     background-color: #A8BFC9;
-    width: 100px;
-    /* display: flex; */
-    /* justify-content: center; */
+    border-radius: 10px;
 }
 
 .active {
@@ -56,8 +65,8 @@ body {
 }
 
 .player-selection {
-    padding: 0.15em 1.5em;
-    border-radius: 0.45em;
+    padding: 0.15em 2.5em;
+    border-radius: 0.6em;
     color: #A8BFC9;
     background-color:#1F3641;
     margin-top: 1rem;
@@ -68,18 +77,16 @@ body {
     font-family: "Outfit";
     font-weight: 700;
     text-align: center;
-    padding: 1em;
+    padding: 0.5em;
 }
 
 #select-icon {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     border-radius: 0.25em;
     background-color: #1A2A33;
-    padding: 0.4em 6em; 
-
-    /* width: 200px; */
+    width: 350px;
+    height: 75px;
 }
 
 #reminder {
@@ -87,7 +94,7 @@ body {
     font-family: "Outfit";
     font-weight: 500;
     text-align: center;
-    padding: 1em;
+    padding: 0.5em;
 }
 
 #new-game {
@@ -97,11 +104,19 @@ body {
     font-weight: 700;
 }
 
+.select-x,
+.select-o {
+    margin: auto;
+    height: 58px;
+    width: 208px;
+    cursor: pointer;
+}
+
 .cpu {
     background-color: #F2B137;
     padding: 0.8em 3em;
     font-size: 1.5rem;
-    margin-top: 4rem; 
+    margin-top: 3rem; 
     margin-bottom: 1.2rem; 
     border-radius: 1.5rem;
     box-shadow: inset 0px -8px 0px #CC8B13;
@@ -131,6 +146,7 @@ body {
         justify-content: center;
         height: inherit;
         padding: 6em 2em;
+        text-align: center;
     }
     #header-icons img {
         width:30px;
@@ -138,28 +154,38 @@ body {
         margin-bottom: 0.4rem;
     }
     .player-selection {
-    padding: 0.98em 2.6em;
+    padding: 0.68em 1em;
+    }
+    #select-icon {
+        width: 260px;
+        height: 70px;
+    }
+    .select-o,.select-x {
+        height: 55px;
+        width: 119px;
     }
    .cpu {
       background-color: #F2B137;
-      padding: 1.05em 3.8em;
+      padding: 1.2em;
       font-size: 0.9rem;
       margin-top: 2.0rem;
-      margin-bottom: 1.2rem;
+      margin-bottom: 0.75rem;
       border-radius: 0.75rem;
+      width: 280px;
     }
     .player {
     background-color: #31C3BD;
-    padding: 1.17em 3.8em;
-    font-size: 0.8rem;
+    padding: 1.2em;
+    font-size: 0.9rem;
     border-radius: 0.75rem;
+    width: 280px;
     }
     #select-icon {
-    padding: 0.46em 0.95em;
-    /* width: 260px; */
+    width: 260px;
+    height: 70px;
 }
     #title, #reminder {
-        padding: 0.86em;
+        padding: 1.46em;
         font-size: 0.75rem;
     }
 }
