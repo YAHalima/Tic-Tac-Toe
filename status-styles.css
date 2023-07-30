@@ -16,7 +16,7 @@ body {
     display: none;
 } 
 
-.status {
+.status, #status {
     color: #A8BFC9;
     text-align: center;
     font-family: Outfit;
@@ -39,22 +39,25 @@ body {
     text-transform: uppercase;
     margin: 5px 0;  
 }
- .round, #takes-round {
-    /* display: flex;
-    flex-direction: row;
+ 
+#takes-round, #take-round {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center; */
-    
-}
-.lost #takes-round {
+    gap: 20px;
+    /* color: var(--light-blue); */
+    font-weight: 700;
+    font-size: 24px;
+ }
+/* .lost #takes-round {
     color: #CC8B13;
-}
+} */
 #restart-game, #round-tied{
     color: #A8BFC9;
 }
-.won #takes-round {
+/* .won #takes-round {
     color: #31C3BD;
-}
+} */
 .options {
     color:#1A2A33;;
     font-family: Outfit;
